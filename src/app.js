@@ -1,13 +1,33 @@
 const express = require("express");
-
+const path = require("path");
+const hbs = require("hbs");
 const app = express();
 
+// define paths for express config
+const publicPath = path.join(__dirname, "../public");
+const viewsPath = path.join(__dirname, "../templates/views");
+const partialsPath = path.join(__dirname, "../tamplates/partials");
+
+// setup handlebars engine and views location
+app.set("view engine", "hbs");
+app.set("views", viewsPath);
+hbs.registerPartials(partialsPath);
+
+// setup static directory to save
+app.use(express.static(publicPath));
+
 app.get("/", (req, res) => {
-  res.send([{ name: "Muhammad Irtiza" }, { name: "Asher khan" }]);
+  res.render("index.hbs", {
+    title: "Weather",
+    name: "Muhammad Irtiza",
+  });
 });
 
 app.get("/about", (req, res) => {
-  res.send("<h1>This is the about route.</h1>");
+  res.render("about", {
+    title: "About",
+    name: "Muhammad Irtiza",
+  });
 });
 
 app.get("/weather", (req, res) => {
