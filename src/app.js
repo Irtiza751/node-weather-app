@@ -19,9 +19,18 @@ hbs.registerPartials(partialsPath);
 app.use(express.static(publicDirectoryPath));
 
 app.get("/", (req, res) => {
+  if (!req.query.search) {
+    return res.render("index.hbs", {
+      title: "Weather",
+      name: "Muhammad Irtiza",
+      message: "Please provide a valid search term",
+    });
+  }
+
   res.render("index.hbs", {
     title: "Weather",
     name: "Muhammad Irtiza",
+    message: req.query.search,
   });
 });
 
